@@ -192,10 +192,13 @@ if __name__ == '__main__':
             sys.stderr.write('no pair has frequency > 1. Stopping\n')
             break
 
-        sys.stderr.write('pair {0}: {1} {2} -> {1}{2} (frequency {3})\n'.format(i, most_frequent[0], most_frequent[1], stats[most_frequent]))
+        if i % 100 == 0:
+            sys.stderr.write('{0}.'.format(i))
+        #sys.stderr.write('pair {0}: {1} {2} -> {1}{2} (frequency {3})\n'.format(i, most_frequent[0], most_frequent[1], stats[most_frequent]))
         args.output.write('{0} {1}\n'.format(*most_frequent))
         changes = replace_pair(most_frequent, sorted_vocab, indices)
         update_pair_statistics(most_frequent, changes, stats, indices)
         stats[most_frequent] = 0
         if not i % 100:
             prune_stats(stats, big_stats, threshold)
+    sys.stderr.write('\n')
